@@ -1,0 +1,19 @@
+{
+  "name": "frag",
+  "description": "PHP Framework",
+  "type": "framework",
+  "version": "1.0.0",
+  "keywords": ["php", "PHP Framework"],
+  "require": {
+    "php": ">=5.4",
+    "filp/whoops": "*",
+    "catfan/medoo": "*",
+    "twig/twig": "*"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}

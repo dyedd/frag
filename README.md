@@ -1,7 +1,7 @@
 ![logo](public/assets/images/logo_c.png)<br>
 Frag -- a developing PHP Framework
 <br>
-##为什么会有frag的诞生？
+## 为什么会有frag的诞生？
 >有了框架，极大地减少了开发时间，提高了开发效率。这是很真实的。
 >
 但是依靠框架去编写，真的是学习到php了嘛？<br>

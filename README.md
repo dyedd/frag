@@ -1,13 +1,13 @@
+![logo](public/assets/images/logo_c.png)<br>
 Frag -- a developing PHP Framework
-
-![logo](public/assets/images/logo_c.png)
+<br>
 ##为什么会有frag的诞生？
 >有了框架，极大地减少了开发时间，提高了开发效率。这是很真实的。
 >
 但是依靠框架去编写，真的是学习到php了嘛？<br>
 写项目可以分为逻辑层和业务层，框架帮我们做好了逻辑层，但是这样的方式，真的是正确学习php的姿势吗？<br>
 可能每天都在if里循环，可能每天都在使用封装好的函数，不晓得怎么实现；可能每天自定义添加了一些function，觉得自己完全掌握了php。
-<br>
+
 **我们是否缺少了什么？**<br>
 当下框架盛行，提高效率的同时，也减少去深度研究语言的人。<br>
 （我？小白啊，不是真正掌握php的那些大佬）<br>

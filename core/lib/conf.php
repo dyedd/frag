@@ -17,7 +17,7 @@ class conf
         if (isset(self::$conf[$file]))
             return self::$conf[$file][$name];
         else{
-            $path = FRAG . '/core/config/' . $file . '.php';
+            $path = FRAG . '/config/' . $file . '.php';
             if (is_file($path)){
                 $conf = include $path;
                 if (isset($conf[$name])){
@@ -43,7 +43,7 @@ class conf
         if (isset(self::$conf[$file]))
             return self::$conf[$file];
         else {
-            $path = FRAG . '/core/config/' . $file . '.php';
+            $path = FRAG . '/config/' . $file . '.php';
             if (is_file($path)) {
                 $conf = include $path;
                 self::$conf[$file] = $conf;

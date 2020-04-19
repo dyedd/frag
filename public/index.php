@@ -12,6 +12,8 @@ define('CORE', FRAG.'/core');
 define('APP', FRAG.'/app');
 // 模块名称
 define('MODULE', 'app');
+//模板名称
+define('THEME_NAME', 'default');
 // 是否开启DEBUG
 define('DEBUG', true);
 // composer引用自动加载

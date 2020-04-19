@@ -79,10 +79,10 @@ class frag
      */
     public function display($file)
     {
-    $file = APP . '/views/' . $file;
+    $file = APP . '/template/' . THEME_NAME . '/' . $file;
     if (is_file($file)){
         $pathCache = FRAG .'/log/twig';
-        $loader = new \Twig\Loader\FilesystemLoader(APP. '/views');
+        $loader = new \Twig\Loader\FilesystemLoader(APP. '/template/' . THEME_NAME);
         $twig = new \Twig\Environment($loader, [
             'cache' => $pathCache,
             'debug' => 'DEBUG'

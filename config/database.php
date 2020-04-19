@@ -5,7 +5,7 @@ return array(
     'database_name' => 'test',
     'server' => 'localhost',
     'username' => 'root',
-    'password' => 'dxm20010412',
+    'password' => 'root',
     // [optional]
     'charset' => 'utf8',
     'port' => 3306,

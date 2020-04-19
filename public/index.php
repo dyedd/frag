@@ -28,7 +28,7 @@ if (DEBUG) {
 }
 
 // 公共函数
-include CORE . '/common/function.php';
+include CORE . '/function/common.php';
 // 核心文件
 include CORE . '/frag.php';
 // 自动加载类库

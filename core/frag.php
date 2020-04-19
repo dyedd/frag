@@ -79,6 +79,7 @@ class frag
      */
     public function display($file)
     {
+    $tempFile = $file;
     $file = APP . '/template/' . THEME_NAME . '/' . $file;
     if (is_file($file)){
         $pathCache = FRAG .'/log/twig';
@@ -87,7 +88,7 @@ class frag
             'cache' => $pathCache,
             'debug' => 'DEBUG'
         ]);
-        $template = $twig->load(basename($file));
+        $template = $twig->load($tempFile);
         $judgeAssign = $this->assign ? $this->assign : '';
         $template->display($judgeAssign);
         }

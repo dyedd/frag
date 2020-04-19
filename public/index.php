@@ -7,9 +7,9 @@ use core\frag;
 // 定义根目录
 define('FRAG', __DIR__ . '/../');
 // 核心文件
-define('CORE', FRAG.'/core');
+define('CORE', FRAG.'core');
 // 模块路径
-define('APP', FRAG.'/app');
+define('APP', FRAG.'app');
 // 模块名称
 define('MODULE', 'app');
 //模板名称

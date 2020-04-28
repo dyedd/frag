@@ -19,6 +19,7 @@ class conf
         else{
             $path = ROOT . '/config/' . $file . '.php';
             if (is_file($path)){
+                //$conf 就是返回的数组
                 $conf = include $path;
                 if (isset($conf[$name])){
                     self::$conf[$file] = $conf;

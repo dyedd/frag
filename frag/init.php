@@ -2,6 +2,7 @@
 
 namespace frag;
 use frag\lib\log;
+use frag\lib\model;
 
 class init
 {
@@ -9,12 +10,16 @@ class init
     public static $classMap = array();
     // 存储已经存在的引擎要用的变量
     public $assign;
+    //数据库初始化存储变量
+    public static $db;
 
     /**
      * @throws \Exception
      */
     public static function run()
     {
+        //数据库初始化
+        self::$db = new model();
         // 日志的初始化
         // \frag\lib\log::log('日志系统');
         log::init();

@@ -1,6 +1,6 @@
 <?php
-namespace core\lib;
-use core\lib\conf;
+namespace frag\lib;
+use frag\lib\conf;
 class route
 {
     public $ctrl;

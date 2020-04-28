@@ -2,12 +2,12 @@
 /**
  * 入口文件
  */
-use core\frag;
+use frag\init;
 
 // 定义根目录
 define('FRAG', __DIR__ . '/../');
 // 核心文件
-define('CORE', FRAG.'core');
+define('CORE', FRAG.'frag');
 // 模块路径
 define('APP', FRAG.'app');
 // 模块名称
@@ -32,8 +32,8 @@ if (DEBUG) {
 // 公共函数
 include CORE . '/function/common.php';
 // 核心文件
-include CORE . '/frag.php';
+include CORE . '/init.php';
 // 自动加载类库
-spl_autoload_register("\\core\\frag::load");
+spl_autoload_register("\\frag\\init::load");
 // 初始化
-frag::run();
+init::run();

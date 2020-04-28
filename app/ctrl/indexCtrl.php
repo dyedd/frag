@@ -1,13 +1,13 @@
 <?php
 namespace app\ctrl;
-use core\lib\model;
+use frag\lib\model;
 
-class indexCtrl extends \core\frag
+class indexCtrl extends \frag\init
 {
     public function index()
     {
 //        p('it is index');
-//        $model = new \core\lib\model();
+//        $model = new \frag\lib\model();
 //        $sql = "SELECT * FROM test_a";
 //        $ret = $model->query($sql);
 //        p($ret->fetch());

@@ -1,6 +1,6 @@
 <?php
-namespace core\lib;
-use core\lib\conf;
+namespace frag\lib;
+use frag\lib\conf;
 class log
 {
     public static $class;
@@ -13,7 +13,7 @@ class log
     {
         //确定存储方式
         $drive = conf::get('DRIVE', 'log');
-        $class = "\\core\\lib\\drive\\log\\" . $drive;
+        $class = "\\frag\\lib\\drive\\log\\" . $drive;
         self::$class = new $class;
     }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace core;
-use core\lib\log;
+namespace frag;
+use frag\lib\log;
 
-class frag
+class init
 {
     // 存储已经加载了的类库
     public static $classMap = array();
@@ -16,7 +16,7 @@ class frag
     public static function run()
     {
         // 日志的初始化
-        // \core\lib\log::log('日志系统');
+        // \frag\lib\log::log('日志系统');
         log::init();
         // 实例化路由类
         $route = new lib\route();
@@ -40,7 +40,7 @@ class frag
 
     /**
      * 自动加载类库
-     * @param $class $class = '\core\route'
+     * @param $class $class = '\frag\route'
      * @return bool
      */
     public static function load($class)
@@ -50,7 +50,7 @@ class frag
         }else{
             // \存在因为有命名空间在
             $class = str_replace('\\', '/', $class);
-            $file = FRAG . '/' . $class . '.php';
+            $file = ROOT . '/' . $class . '.php';
             if (is_file($file)){
                 include $file;
                 self::$classMap[$class] = $class;
@@ -82,7 +82,7 @@ class frag
     $tempFile = $file;
     $file = APP . '/template/' . THEME_NAME . '/' . $file;
     if (is_file($file)){
-        $pathCache = FRAG .'/log/twig';
+        $pathCache = ROOT .'/log/twig';
         $loader = new \Twig\Loader\FilesystemLoader(APP. '/template/' . THEME_NAME);
         $twig = new \Twig\Environment($loader, [
             'cache' => $pathCache,

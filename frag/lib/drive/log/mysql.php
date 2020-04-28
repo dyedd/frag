@@ -1,5 +1,5 @@
 <?php
-namespace core\lib\drive\log;
+namespace frag\lib\drive\log;
 class mysql
 {
     public function log($name)

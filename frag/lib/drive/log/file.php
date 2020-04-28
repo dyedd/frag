@@ -1,7 +1,7 @@
 <?php
-namespace core\lib\drive\log;
+namespace frag\lib\drive\log;
 //文件系统
-use core\lib\conf;
+use frag\lib\conf;
 
 class file
 {

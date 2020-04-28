@@ -5,11 +5,11 @@
 use frag\init;
 
 // 定义根目录
-define('FRAG', __DIR__ . '/../');
+define('ROOT', __DIR__ . '/../');
 // 核心文件
-define('CORE', FRAG.'frag');
+define('CORE', ROOT.'frag');
 // 模块路径
-define('APP', FRAG.'app');
+define('APP', ROOT.'app');
 // 模块名称
 define('MODULE', 'app');
 //模板名称
@@ -17,7 +17,7 @@ define('THEME_NAME', 'default');
 // 是否开启DEBUG
 define('DEBUG', true);
 // composer引用自动加载
-include FRAG ."vendor/autoload.php";
+include ROOT ."vendor/autoload.php";
 
 if (DEBUG) {
     // whoops错误提示

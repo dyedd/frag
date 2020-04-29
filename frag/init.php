@@ -12,6 +12,8 @@ class init
     public $assign;
     //数据库初始化存储变量
     public static $db;
+    //传递数组给模板引擎
+    public $assignArr = array();
 
     /**
      * @throws \Exception
@@ -72,7 +74,11 @@ class init
      */
     public function assign($name, $value)
     {
-        $this->assign[$name] = $value;
+        if (is_array($value)){
+            $this->assignArr[] = $value;
+            $this->assign[$name] = $this->assignArr;
+        }
+        else $this->assign[$name] = $value;
     }
 
     /**

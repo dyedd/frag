@@ -74,9 +74,14 @@ class init
      */
     public function assign($name, $value)
     {
+        //对于套娃数组
         if (is_array($value)){
-            $this->assignArr[] = $value;
-            $this->assign[$name] = $this->assignArr;
+            foreach ($value as $detail){
+                $this->assignArr[] = $detail;
+                $this->assign[$name] = $this->assignArr;
+            }
+            //循环后清空数组存缓
+            $this->assignArr = [];
         }
         else $this->assign[$name] = $value;
     }

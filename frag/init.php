@@ -74,14 +74,21 @@ class init
      */
     public function assign($name, $value)
     {
-        //对于套娃数组
+        //对于数组
         if (is_array($value)){
             foreach ($value as $detail){
-                $this->assignArr[] = $detail;
-                $this->assign[$name] = $this->assignArr;
+                //对于套娃数组
+                if (is_array($detail)){
+                    $this->assignArr[] = $detail;
+                    $this->assign[$name] = $this->assignArr;
+                    //循环后清空数组存缓
+                    $this->assignArr = [];
+                }else{
+                    break;
+                }
             }
-            //循环后清空数组存缓
-            $this->assignArr = [];
+            //也是数组.实际等于上面foreach循环后的
+            $this->assign[$name] = $value;
         }
         else $this->assign[$name] = $value;
     }

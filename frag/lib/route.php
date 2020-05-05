@@ -37,6 +37,8 @@ class route
             $this->ctrl = conf::get('CTRL', 'route');
             $this->action = conf::get('ACTION', 'route');
         }
+        //提供get
+        if (!empty($pathArr[2]) && !empty($pathArr[3])) $_GET[$pathArr[2]] = $pathArr[3];
     }
 
 }

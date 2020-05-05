@@ -5,7 +5,7 @@ class route
 {
     public $ctrl;
     public $action;
-
+    public $siteUrl;
     /**
      * route constructor.
      * @throws \Exception
@@ -14,19 +14,25 @@ class route
     {
         // xxx.com/index.php/index/index
         // xxx.com/xx/index.php/index/index
-        if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != ""){
-            $path = $_SERVER['QUERY_STRING'];
-            $rePath = trim($path,"s=");
-            // 匹配index/index 去除？n = 1
-            if (preg_match('/(\?|&.*)/', $rePath))
-                $rePath = preg_replace('/(\?|&.*)/', '', $rePath);
-            $pathArr = explode("/",$rePath);
-            if (!empty($pathArr[0]))
-                $this->ctrl = $pathArr[0];
+
+        //判断是否存放于二级目录等中,三级四级我觉得没意思了吧，但我还是写了
+        $this->siteUrl = conf::get('URL', 'route');
+        $urlArr = explode('/', $this->siteUrl);
+        $catalog = '/';
+        if (!empty($urlArr[3])){
+            //证明不在根目录
+            for ($i = 3; $i < count($urlArr) && !empty($urlArr[$i]); $i++)
+                $catalog .= $urlArr[$i] . '/';
+        }
+        if(!empty($_SERVER['REQUEST_URI'])){
+            $path = $_SERVER['REQUEST_URI'];
+            $rePath = ltrim($path, $catalog);
+            $pathArr = explode('/', $rePath);
+            $this->ctrl = $pathArr[0];
             if (!empty($pathArr[1]))
-               $this->action = $pathArr[1];
+                $this->action = $pathArr[1];
             else
-               $this->action = conf::get('ACTION', 'route');
+                $this->action = conf::get('ACTION', 'route');
         }else{
             $this->ctrl = conf::get('CTRL', 'route');
             $this->action = conf::get('ACTION', 'route');

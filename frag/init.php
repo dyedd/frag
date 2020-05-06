@@ -14,7 +14,9 @@ class init
     public static $db;
     //传递数组给模板引擎
     public $assignArr = array();
-
+    //路由变量
+    public static $route;
+    
     /**
      * @throws \Exception
      */
@@ -26,19 +28,18 @@ class init
         // \frag\lib\log::log('日志系统');
         log::init();
         // 实例化路由类
-        $route = new lib\route();
+        self::$route = new lib\route();
 
-        $ctrlClass = $route->ctrl;
-        $action = $route->action;
+        $ctrlClass = self::$route->ctrl;
+        $action = self::$route->action;
         // 由路由找到控制器
         $ctrlFile = APP. '/ctrl/' . $ctrlClass . 'Ctrl.php';
         // 确定控制器的类
         $ctrlClass = "\\" . MODULE . "\\ctrl\\" . $ctrlClass . "Ctrl";
         // 存在就实例化
         if (is_file($ctrlFile)) {
-            include $ctrlFile;
             $ctrl = new $ctrlClass;
-            // $action(); 是动态的，若为index，即调用类中的test方法
+            // $action(); 是动态的，若为index，即调用类中的index方法
             $ctrl->$action();
         }else{
             throw new \Exception('找不到控制器' . $ctrlClass);

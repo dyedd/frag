@@ -26,7 +26,7 @@ class route
         }
         if(!empty($_SERVER['REQUEST_URI'])){
             $path = $_SERVER['REQUEST_URI'];
-            $rePath = ltrim($path, $catalog);
+            $rePath =preg_replace("/" . addcslashes($catalog ,'/') . "?/", '',$path);
             $pathArr = explode('/', $rePath);
             $this->ctrl = $pathArr[0];
             if (!empty($pathArr[1]))

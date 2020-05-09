@@ -113,8 +113,9 @@ class init
             'debug' => 'DEBUG'
         ]);
         $template = $twig->load($tempFile);
-        $judgeAssign = $this->assign ? $this->assign : '';
-        $template->display($judgeAssign);
+        if (!empty(self::$route->relativePath))
+            $this->assign('RESOURCE', rtrim(self::$route->relativePath, '/'));
+        $template->display($this->assign);
         }
     }
 }

@@ -6,6 +6,8 @@ class route
     public $ctrl;
     public $action;
     public $siteUrl;
+    //相对路径
+    public $relativePath;
     /**
      * route constructor.
      * @throws \Exception
@@ -33,6 +35,17 @@ class route
                 $this->action = $pathArr[1];
             else
                 $this->action = conf::get('ACTION', 'route');
+            //相对路径的处理
+            if (strpos($rePath,'//')){
+                $rePath = str_replace('//','/',$rePath);
+            }
+            $count = substr_count($rePath, '/');
+            if ($count == 0) $this->relativePath = ".";
+            elseif ($count == 1) $this->relativePath = "../";
+            else{
+                for ($i=0;$i<$count;$i++)
+                    $this->relativePath .= '../';
+            }
         }else{
             $this->ctrl = conf::get('CTRL', 'route');
             $this->action = conf::get('ACTION', 'route');

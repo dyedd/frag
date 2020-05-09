@@ -114,7 +114,7 @@ class init
         ]);
         $template = $twig->load($tempFile);
         if (!empty(self::$route->relativePath))
-            $this->assign('RESOURCE', rtrim(self::$route->relativePath, '/'));
+            $this->assign('RELADIR', rtrim(self::$route->relativePath, '/'));
         $template->display($this->assign);
         }
     }

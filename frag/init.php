@@ -10,8 +10,6 @@ class init
     public static $classMap = array();
     // 存储已经存在的引擎要用的变量
     public $assign;
-    //数据库初始化存储变量
-    public static $db;
     //传递数组给模板引擎
     public $assignArr = array();
     //路由变量
@@ -22,8 +20,6 @@ class init
      */
     public static function run()
     {
-        //数据库初始化
-        self::$db = new model();
         // 实例化路由类
         self::$route = new lib\route();
 

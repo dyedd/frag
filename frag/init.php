@@ -30,12 +30,12 @@ class init
         $ctrl = self::$route->ctrl;
         $action = self::$route->action;
         // 由路由找到模块
-        $dir = ROOT . '/app/' . $ctrl .'/ctrl/';
+        $dir = ROOT . '/app/' . $ctrl;
         if (is_dir($dir)){
-            if (is_file($dir . '/' . $action . 'Ctrl.php')){
-                $ctrlClass = "\\app\\" . $ctrl . "\\ctrl\\" . $action . "Ctrl";
+            if (is_file($dir . '/ctrl.php')){
+                $ctrlClass = "\\app\\" . $ctrl . "\\ctrl";
                 $ctrl = new $ctrlClass;
-                $ctrl->index();
+                $ctrl->$action();
             }else{
                 throw new \Exception( '找不到[' . $action . ']控制器');
             }

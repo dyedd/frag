@@ -31,5 +31,10 @@ Frag -- a developing PHP Framework
 
 3.[whoops](https://github.com/filp/whoops)
 
+4.[monolog](https://github.com/Seldaek/monolog)
+
+5.[guzzle](http://docs.guzzlephp.org/en/stable/)
+
 ## 使用要求
-maybe nothing
+具体写于composer<br>
+首先明确你的`php>=7`

@@ -1,5 +1,5 @@
 {
-  "name": "frag",
+  "name": "dyedd/frag",
   "description": "PHP Framework",
   "type": "framework",
   "version": "1.0.0",
@@ -8,7 +8,10 @@
     "php": ">=5.4",
     "filp/whoops": "*",
     "catfan/medoo": "*",
-    "twig/twig": "*"
+    "twig/twig": "*",
+    "guzzlehttp/guzzle": "~6.0",
+    "monolog/monolog": "*",
+    "ext-json": "*"
   },
   "repositories": {
     "packagist": {

@@ -1,7 +1,7 @@
 <?php
 
 namespace frag;
-use frag\lib\log;
+use frag\lib\conf;
 use frag\lib\model;
 
 class init
@@ -24,25 +24,23 @@ class init
     {
         //数据库初始化
         self::$db = new model();
-        // 日志的初始化
-        // \frag\lib\log::log('日志系统');
-        log::init();
         // 实例化路由类
         self::$route = new lib\route();
 
-        $ctrlClass = self::$route->ctrl;
+        $ctrl = self::$route->ctrl;
         $action = self::$route->action;
-        // 由路由找到控制器
-        $ctrlFile = APP. '/ctrl/' . $ctrlClass . 'Ctrl.php';
-        // 确定控制器的类
-        $ctrlClass = "\\" . MODULE . "\\ctrl\\" . $ctrlClass . "Ctrl";
-        // 存在就实例化
-        if (is_file($ctrlFile)) {
-            $ctrl = new $ctrlClass;
-            // $action(); 是动态的，若为index，即调用类中的index方法
-            $ctrl->$action();
+        // 由路由找到模块
+        $dir = ROOT . '/app/' . $ctrl .'/ctrl/';
+        if (is_dir($dir)){
+            if (is_file($dir . '/' . $action . 'Ctrl.php')){
+                $ctrlClass = "\\app\\" . $ctrl . "\\ctrl\\" . $action . "Ctrl";
+                $ctrl = new $ctrlClass;
+                $ctrl->index();
+            }else{
+                throw new \Exception( '找不到[' . $action . ']控制器');
+            }
         }else{
-            throw new \Exception('找不到控制器' . $ctrlClass);
+            throw new \Exception($ctrl . '模块不存在');
         }
     }
 
@@ -104,10 +102,10 @@ class init
     public function display($file)
     {
     $tempFile = $file;
-    $file = APP . '/template/' . THEME_NAME . '/' . $file;
+    $file = ROOT . '/public/tpl/' . $file;
     if (is_file($file)){
-        $pathCache = ROOT .'/log/twig';
-        $loader = new \Twig\Loader\FilesystemLoader(APP. '/template/' . THEME_NAME);
+        $pathCache = ROOT .'/public/cache/twig';
+        $loader = new \Twig\Loader\FilesystemLoader(ROOT. '/public/tpl');
         $twig = new \Twig\Environment($loader, [
             'cache' => $pathCache,
             'debug' => 'DEBUG'

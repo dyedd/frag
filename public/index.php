@@ -8,12 +8,6 @@ use frag\init;
 define('ROOT', __DIR__ . '/..');
 // 核心文件
 define('CORE', ROOT.'/frag');
-// 模块路径
-define('APP', ROOT.'/app');
-// 模块名称
-define('MODULE', 'app');
-//模板名称
-define('THEME_NAME', 'default');
 // 是否开启DEBUG
 define('DEBUG', true);
 // composer引用自动加载

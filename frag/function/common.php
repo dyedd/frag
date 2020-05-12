@@ -5,7 +5,7 @@
  */
 function p($var)
 {
-    echo "<pre>";
+    echo '<pre>';
     var_dump($var);
-    echo "</pre>";
+    echo '</pre>';
 }

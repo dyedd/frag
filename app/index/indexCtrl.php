@@ -1,5 +1,5 @@
 <?php
-namespace app\index\ctrl;
+namespace app\index;
 class indexCtrl extends \frag\init
 {
     public function index()

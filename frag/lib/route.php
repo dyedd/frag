@@ -5,6 +5,7 @@ class route
 {
     public $ctrl;
     public $action;
+    public $module;
     public $siteUrl;
     //相对路径
     public $relativePath;
@@ -28,7 +29,7 @@ class route
         }
         if(!empty($_SERVER['REQUEST_URI'])){
             $path = $_SERVER['REQUEST_URI'];
-            $rePath =preg_replace("/" . addcslashes($catalog ,'/') . "?/", '',$path);
+            $rePath =preg_replace('/' . addcslashes($catalog ,'/') . '?/', '',$path);
             $pathArr = explode('/', $rePath);
             $this->ctrl = $pathArr[0];
             if (!empty($pathArr[1]))
@@ -40,8 +41,8 @@ class route
                 $rePath = str_replace('//','/',$rePath);
             }
             $count = substr_count($rePath, '/');
-            if ($count == 0) $this->relativePath = ".";
-            elseif ($count == 1) $this->relativePath = "../";
+            if ($count == 0) $this->relativePath = '.';
+            elseif ($count == 1) $this->relativePath = '../';
             else{
                 for ($i=0;$i<$count;$i++)
                     $this->relativePath .= '../';
@@ -50,8 +51,15 @@ class route
             $this->ctrl = conf::get('CTRL', 'route');
             $this->action = conf::get('ACTION', 'route');
         }
-        //提供get
-        if (!empty($pathArr[2]) && !empty($pathArr[3])) $_GET[$pathArr[2]] = $pathArr[3];
+        if (in_array($this->ctrl, explode(',', MULTI_MODULE)) ){
+            // 说明是扩展模块
+            $this->module = !empty($pathArr[2])?$pathArr[2]:'';
+            //提供get
+            if (!empty($pathArr[3]) && !empty($pathArr[4])) $_GET[$pathArr[3]] = $pathArr[4];
+        }else{
+            //提供get
+            if (!empty($pathArr[2]) && !empty($pathArr[3])) $_GET[$pathArr[2]] = $pathArr[3];
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace frag;
+
 use frag\lib\conf;
 use frag\lib\model;
 
@@ -14,7 +15,7 @@ class init
     public $assignArr = array();
     //路由变量
     public static $route;
-    
+
     /**
      * @throws \Exception
      */
@@ -22,21 +23,27 @@ class init
     {
         // 实例化路由类
         self::$route = new lib\route();
-
         $ctrl = self::$route->ctrl;
         $action = self::$route->action;
-        // 由路由找到模块
-        $dir = ROOT . '/app/' . $ctrl;
-        if (is_dir($dir)){
-            if (is_file($dir . '/ctrl.php')){
-                $ctrlClass = "\\app\\" . $ctrl . "\\ctrl";
+        if (!empty(self::$route->module)) {
+            // 多模块
+            $module = self::$route->module;
+            if (is_file(ROOT . '/' . $ctrl . '/' . $action . 'Ctrl.php')) {
+                $ctrlClass = '\\' . $ctrl . '\\' . $action . 'Ctrl';
+                $ctrl = new $ctrlClass;
+                $ctrl->$module();
+            } else {
+                throw new \Exception('找不到[' . $ctrl . ']模块 或 [' . $action . ']控制器');
+            }
+        } else {
+            // 由路由找到模块
+            if (is_file(APP . '/' . $ctrl . 'Ctrl.php')) {
+                $ctrlClass = '\\app\\' . $ctrl . 'Ctrl';
                 $ctrl = new $ctrlClass;
                 $ctrl->$action();
-            }else{
-                throw new \Exception( '找不到[' . $action . ']控制器');
+            } else {
+                throw new \Exception('找不到[' . $action . ']控制器');
             }
-        }else{
-            throw new \Exception($ctrl . '模块不存在');
         }
     }
 
@@ -47,16 +54,16 @@ class init
      */
     public static function load($class)
     {
-        if (isset(self::$classMap[$class])){
+        if (isset(self::$classMap[$class])) {
             return true;
-        }else{
+        } else {
             // \存在因为有命名空间在
             $class = str_replace('\\', '/', $class);
             $file = ROOT . '/' . $class . '.php';
-            if (is_file($file)){
+            if (is_file($file)) {
                 include $file;
                 self::$classMap[$class] = $class;
-            }else{
+            } else {
                 return false;
             }
         }
@@ -70,22 +77,21 @@ class init
     public function assign($name, $value)
     {
         //对于数组
-        if (is_array($value)){
-            foreach ($value as $detail){
+        if (is_array($value)) {
+            foreach ($value as $detail) {
                 //对于套娃数组
-                if (is_array($detail)){
+                if (is_array($detail)) {
                     $this->assignArr[] = $detail;
                     $this->assign[$name] = $this->assignArr;
                     //循环后清空数组存缓
                     $this->assignArr = [];
-                }else{
+                } else {
                     break;
                 }
             }
             //也是数组.实际等于上面foreach循环后的
             $this->assign[$name] = $value;
-        }
-        else $this->assign[$name] = $value;
+        } else $this->assign[$name] = $value;
     }
 
     /**
@@ -97,19 +103,19 @@ class init
      */
     public function display($file)
     {
-    $tempFile = $file;
-    $file = ROOT . '/public/tpl/' . $file;
-    if (is_file($file)){
-        $pathCache = ROOT .'/public/cache/twig';
-        $loader = new \Twig\Loader\FilesystemLoader(ROOT. '/public/tpl');
-        $twig = new \Twig\Environment($loader, [
-            'cache' => $pathCache,
-            'debug' => 'DEBUG'
-        ]);
-        $template = $twig->load($tempFile);
-        if (!empty(self::$route->relativePath))
-            $this->assign('RELADIR', rtrim(self::$route->relativePath, '/'));
-        $template->display($this->assign);
+        $tempFile = $file;
+        $file = ROOT . '/public/tpl/' . $file;
+        if (is_file($file)) {
+            $pathCache = ROOT . '/public/cache/twig';
+            $loader = new \Twig\Loader\FilesystemLoader(ROOT . '/public/tpl');
+            $twig = new \Twig\Environment($loader, [
+                'cache' => $pathCache,
+                'debug' => 'DEBUG'
+            ]);
+            $template = $twig->load($tempFile);
+            if (!empty(self::$route->relativePath))
+                $this->assign('RELADIR', rtrim(self::$route->relativePath, '/'));
+            $template->display($this->assign);
         }
     }
 }

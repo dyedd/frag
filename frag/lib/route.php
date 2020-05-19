@@ -54,11 +54,26 @@ class route
         if (in_array($this->ctrl, explode(',', MULTI_MODULE)) ){
             // 说明是扩展模块
             $this->module = !empty($pathArr[2])?$pathArr[2]:'';
-            //提供get
-            if (!empty($pathArr[3]) && !empty($pathArr[4])) $_GET[$pathArr[3]] = $pathArr[4];
+            $getInterval = 3;
         }else{
-            //提供get
-            if (!empty($pathArr[2]) && !empty($pathArr[3])) $_GET[$pathArr[2]] = $pathArr[3];
+            $getInterval = 2;
+        }
+        //提供get
+        if (!empty($pathArr)){
+            $count = count($pathArr);
+            if ($count > $getInterval){
+                if (($count - $getInterval) % 2){
+                    //奇数
+                    for ($i = $getInterval;$i < $count - 1;$i++){
+                        $_GET[$pathArr[$i]] = $pathArr[$i + 1];
+                    }
+                }else{
+                    //偶数
+                    for ($i = $getInterval;$i < $count;$i+=2){
+                        $_GET[$pathArr[$i]] = $pathArr[$i + 1];
+                    }
+                }
+            }
         }
     }
 

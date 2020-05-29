@@ -1,6 +1,5 @@
 <?php
 namespace frag\lib;
-use frag\lib\conf;
 class route
 {
     public $ctrl;
@@ -21,15 +20,19 @@ class route
         //判断是否存放于二级目录等中,三级四级我觉得没意思了吧，但我还是写了
         $this->siteUrl = conf::get('URL', 'route');
         $urlArr = explode('/', $this->siteUrl);
-        $catalog = '/';
+        $catalog = '';
         if (!empty($urlArr[3])){
+            $catalog = '/';
             //证明不在根目录
             for ($i = 3; $i < count($urlArr) && !empty($urlArr[$i]); $i++)
                 $catalog .= $urlArr[$i] . '/';
         }
         if(!empty($_SERVER['REQUEST_URI'])){
             $path = $_SERVER['REQUEST_URI'];
-            $rePath =preg_replace('/' . addcslashes($catalog ,'/') . '?/', '',$path);
+            if(!empty($catalog))
+                $rePath =preg_replace('/' . addcslashes($catalog ,'/') . '?/', '',$path);
+            else
+                $rePath =preg_replace('/^\//', '',$path);
             $pathArr = explode('/', $rePath);
             $this->ctrl = $pathArr[0];
             if (!empty($pathArr[1]))

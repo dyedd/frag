@@ -35,6 +35,10 @@ Frag -- a developing PHP Framework
 
 5.[guzzle](http://docs.guzzlephp.org/en/stable/)
 
+6....  ......
 ## 使用要求
 具体写于composer<br>
-首先明确你的`php>=7`
+首先明确你的`php>=7`<br>
+
+使用composer安装<br>
+`composer create-project dyedd/frag`

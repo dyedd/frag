@@ -2,70 +2,32 @@
 
 namespace frag;
 
-use frag\lib\conf;
-use frag\lib\model;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Loader\FilesystemLoader;
 
 class init
 {
-    // 存储已经加载了的类库
-    public static $classMap = array();
     // 存储已经存在的引擎要用的变量
     public $assign;
     //传递数组给模板引擎
     public $assignArr = array();
-    //路由变量
-    public static $route;
-
-    /**
-     * @throws \Exception
-     */
-    public static function run()
+    public static $relUrl;
+    public function __construct()
     {
-        // 实例化路由类
-        self::$route = new lib\route();
-        $ctrl = self::$route->ctrl;
-        $action = self::$route->action;
-        if (!empty(self::$route->module)) {
-            // 多模块
-            $module = self::$route->module;
-            if (is_file(ROOT . '/' . $ctrl . '/' . $action . 'Ctrl.php')) {
-                $ctrlClass = '\\' . $ctrl . '\\' . $action . 'Ctrl';
-                $ctrl = new $ctrlClass;
-                $ctrl->$module();
-            } else {
-                throw new \Exception('找不到[' . $ctrl . ']模块 或 [' . $action . ']控制器');
-            }
-        } else {
-            // 由路由找到模块
-            if (is_file(APP . '/' . $ctrl . 'Ctrl.php')) {
-                $ctrlClass = '\\app\\' . $ctrl . 'Ctrl';
-                $ctrl = new $ctrlClass;
-                $ctrl->$action();
-            } else {
-                throw new \Exception('找不到[' . $action . ']控制器');
-            }
+        $count = substr_count($_SERVER['REQUEST_URI'], '/') - 1;
+        $str = '';
+        for ($i = 1; $i < $count; $i++) {
+            $str .= '../';
         }
-    }
-
-    /**
-     * 自动加载类库
-     * @param $class $class = '\frag\route'
-     * @return bool
-     */
-    public static function load($class)
-    {
-        if (isset(self::$classMap[$class])) {
-            return true;
-        } else {
-            // \存在因为有命名空间在
-            $class = str_replace('\\', '/', $class);
-            $file = ROOT . '/' . $class . '.php';
-            if (is_file($file)) {
-                include $file;
-                self::$classMap[$class] = $class;
-            } else {
-                return false;
-            }
+        self::$relUrl = rtrim($str, '/');
+        // 中间件的使用
+        $middleware = new lib\middleware();
+        $middleArr = get_class_methods($middleware);
+        foreach ($middleArr as $value) {
+            $middleware->$value();
         }
     }
 
@@ -97,9 +59,9 @@ class init
     /**
      * 加载twig引擎到这个html文件
      * @param $file
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function display($file)
     {
@@ -107,14 +69,13 @@ class init
         $file = ROOT . '/public/tpl/' . $file;
         if (is_file($file)) {
             $pathCache = ROOT . '/public/cache/twig';
-            $loader = new \Twig\Loader\FilesystemLoader(ROOT . '/public/tpl');
-            $twig = new \Twig\Environment($loader, [
+            $loader = new FilesystemLoader(ROOT . '/public/tpl');
+            $twig = new Environment($loader, [
                 'cache' => $pathCache,
                 'debug' => 'DEBUG'
             ]);
             $template = $twig->load($tempFile);
-            if (!empty(self::$route->relativePath))
-                $this->assign('RELADIR', rtrim(self::$route->relativePath, '/'));
+            $this->assign('base', self::$relUrl );
             $template->display($this->assign);
         }
     }

@@ -1,9 +1,10 @@
 {
   "name": "dyedd/frag",
   "description": "PHP Framework",
-  "type": "framework",
-  "version": "1.1.2",
-  "keywords": ["php", "PHP Framework"],
+  "type": "project",
+  "version": "1.1.4",
+  "keywords": ["php", "Framework"],
+  "homepage": "https://dyedd.cn",
   "require": {
     "php": ">=7.0",
     "filp/whoops": "*",
@@ -16,7 +17,15 @@
   "repositories": {
     "packagist": {
       "type": "composer",
-      "url": "https://packagist.phpcomposer.com"
+      "url": "https://mirrors.aliyun.com/composer/"
+    }
+  },
+  "autoload": {
+    "files" : ["frag/function/common.php", "frag/init.php"],
+    "psr-4": {
+      "app\\" : "app",
+      "api\\" : "api",
+      "frag\\" : "frag"
     }
   }
 }

@@ -17,15 +17,24 @@ class route
         $path = implode('/', array_intersect(explode( '\\', ROOT), explode('/', $trimUrl)));
         $url = preg_replace('/\/'. $path .'\//', '', $trimUrl);
         // 去掉？
-        self::$url = preg_replace('/\?.*[|\/]*/', '', $url);
-        $pathArr = conf::get('PATH', 'urls');
-        if (array_key_exists(self::$url, $pathArr)) {
-            $func = substr($pathArr[self::$url], strpos($pathArr[self::$url], '.')+1);
-            $class = substr($pathArr[self::$url], 0, strpos($pathArr[self::$url], '.'));
-            self::$ctrl = new $class;
-            self::$ctrl->$func();
+        $url = preg_replace('/\?.*[|\/]*/', '', $url);
+        $urlArr = explode('/', $url);
+        if (is_dir(APP . '/' . 'control')) {
+            // 多应用
+            if (is_dir(APP . '/' .$urlArr[0])){
+                $class = '\\app\\' . $urlArr[0] . '\\' . $urlArr[1];
+                $class = new $class;
+                $action = $urlArr[2];
+                $class->$action();
+            }else{
+                throw new Exception('没有创建应用' . $urlArr[0]);
+            }
         }else{
-            throw new Exception('找不到' . $pathArr[self::$url] . '相关路径');
+            // 单应用
+            $class = '\\app\\' . $urlArr[0];
+            $class = new $class;
+            $action = $urlArr[1];
+            $class->$action();
         }
     }
 

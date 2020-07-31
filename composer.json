@@ -2,7 +2,7 @@
   "name": "dyedd/frag",
   "description": "PHP Framework",
   "type": "project",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "keywords": ["php", "Framework"],
   "homepage": "https://dyedd.cn",
   "require": {
@@ -21,7 +21,7 @@
     }
   },
   "autoload": {
-    "files" : ["frag/function/common.php", "frag/init.php"],
+    "files" : ["frag/function/common.php", "frag/view.php"],
     "psr-4": {
       "app\\" : "app",
       "api\\" : "api",

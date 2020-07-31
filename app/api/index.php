@@ -1,11 +1,11 @@
 <?php
-namespace app;
+namespace app\api;
 
-use frag\init;
+use frag\view;
 
-class control extends init
+class index extends view
 {
-    public function showIndex()
+    public function index()
     {
         $data = 'HELLO WORLD! twig';
         $this->assign('data', $data);

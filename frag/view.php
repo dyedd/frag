@@ -8,29 +8,12 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
-class init
+class view
 {
     // 存储已经存在的引擎要用的变量
     public $assign;
     //传递数组给模板引擎
     public $assignArr = array();
-    public static $relUrl;
-    public function __construct()
-    {
-        $count = substr_count($_SERVER['REQUEST_URI'], '/') - 1;
-        $str = '';
-        for ($i = 1; $i < $count; $i++) {
-            $str .= '../';
-        }
-        self::$relUrl = rtrim($str, '/');
-        // 中间件的使用
-        $middleware = new lib\middleware();
-        $middleArr = get_class_methods($middleware);
-        foreach ($middleArr as $value) {
-            $middleware->$value();
-        }
-    }
-
     /**
      * 将值传给name，用作引擎解析的名字
      * @param $name
@@ -75,7 +58,7 @@ class init
                 'debug' => 'DEBUG'
             ]);
             $template = $twig->load($tempFile);
-            $this->assign('base', self::$relUrl );
+            $this->assign('base', rel() );
             $template->display($this->assign);
         }
     }

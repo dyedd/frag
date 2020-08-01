@@ -27,19 +27,25 @@ if (DEBUG) {
     $whoops->pushHandler($option);
     $whoops->register();
 }
-// 中间件的使用
-$middleware = new \frag\lib\middleware();
-$middleArr = get_class_methods($middleware);
-foreach ($middleArr as $value) {
-    $middleware->$value();
-}
-// 单独的文件
 $files = [];
 getAllFiles(APP, $files);
 foreach ($files as $file){
-    if (strstr($file, 'untils.php')){
+    if (strstr($file, 'untils.php') or strstr($file, 'route.php')){
         include $file;
     }
 }
-// 初始化
-route::run();
+
+// 中间件的使用
+
+$middlewares = \frag\lib\conf::all('middleware');
+
+$next = function ($request) {
+    // 初始化
+    return route::dispatch();
+};
+foreach ($middlewares as $middleware) {
+    $next = function ($request) use ($next, $middleware) {
+        return (new $middleware)->handle($request, $next);
+    };
+}
+echo $next('request');

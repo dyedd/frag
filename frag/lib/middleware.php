@@ -1,8 +1,12 @@
 <?php
 namespace frag\lib;
-class middleware {
-    public function test()
+// 中间件
+use Closure;
+
+class middleware
+{
+    public function handle($request, Closure $next)
     {
-        p('中间件的使用');
+        return $next($request);
     }
 }

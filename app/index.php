@@ -1,9 +1,9 @@
 <?php
 namespace app;
 
-use frag\view;
+use frag\init;
 
-class index extends view
+class index extends init
 {
     public function index()
     {

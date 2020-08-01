@@ -8,7 +8,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
-class view
+class init
 {
     // 存储已经存在的引擎要用的变量
     public $assign;

@@ -21,7 +21,9 @@
     }
   },
   "autoload": {
-    "files" : ["frag/function/common.php", "frag/view.php"],
+    "files" : ["frag/function/common.php",
+      "frag/init.php"
+    ],
     "psr-4": {
       "app\\" : "app",
       "api\\" : "api",

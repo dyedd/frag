@@ -1,5 +1,5 @@
 <?php
-namespace frag\lib;
+namespace frag\lib\composer;
 use GuzzleHttp\Client;
 class guzzle extends Client
 {

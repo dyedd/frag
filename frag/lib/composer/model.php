@@ -1,5 +1,5 @@
 <?php
-namespace frag\lib;
+namespace frag\lib\composer;
 use frag\lib\conf;
 use Medoo\Medoo;
 class model extends Medoo

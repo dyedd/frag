@@ -2,11 +2,13 @@
 
 namespace frag;
 
+use frag\lib\composer\model;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
+use frag\lib\route;
 
 class init
 {
@@ -14,6 +16,38 @@ class init
     public $assign;
     //传递数组给模板引擎
     public $assignArr = array();
+    public static $db;
+    public static $files = array();
+    /**
+     * 初始化
+     * @throws \Exception
+     */
+    public static function go()
+    {
+        // 连接数据库
+        self::$db = new model();
+        // 分模块加载函数和路由
+        getAllFiles(APP, self::$files);
+        foreach (self::$files as $file){
+            if (strstr($file, 'utils.php') or strstr($file, 'route.php')){
+                include $file;
+            }
+        }
+        // 中间件的使用
+        $middlewares = \frag\lib\conf::all('middleware');
+
+        $next = function ($request) {
+            // 初始化
+            route::dispatch();
+        };
+        foreach ($middlewares as $middleware) {
+            $next = function ($request) use ($next, $middleware) {
+                return (new $middleware)->handle($request, $next);
+            };
+        }
+        $next('frag');
+
+    }
     /**
      * 将值传给name，用作引擎解析的名字
      * @param $name
@@ -58,7 +92,7 @@ class init
                 'debug' => 'DEBUG'
             ]);
             $template = $twig->load($tempFile);
-            $this->assign('base', rel() );
+            $this->assign('basedir', rel() );
             $template->display($this->assign);
         }
     }

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace frag\lib;
+namespace frag\lib\composer;
 use DateTimeZone;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;

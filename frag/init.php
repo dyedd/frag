@@ -3,6 +3,7 @@
 namespace frag;
 
 use frag\lib\composer\model;
+use frag\lib\conf;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -26,13 +27,8 @@ class init
     {
         // 连接数据库
         self::$db = new model();
-        // 分模块加载函数和路由
-        getAllFiles(APP, self::$files);
-        foreach (self::$files as $file){
-            if (strstr($file, 'utils.php') or strstr($file, 'route.php')){
-                include $file;
-            }
-        }
+        // 路由
+        conf::all('route');
         // 中间件的使用
         $middlewares = \frag\lib\conf::all('middleware');
 
@@ -92,7 +88,7 @@ class init
                 'debug' => 'DEBUG'
             ]);
             $template = $twig->load($tempFile);
-            $this->assign('basedir', rel() );
+            $this->assign('basedir', rel()?rel():'.');
             $template->display($this->assign);
         }
     }

@@ -88,6 +88,7 @@ class init
                 'debug' => 'DEBUG'
             ]);
             $template = $twig->load($tempFile);
+            // 相对路径
             $this->assign('basedir', rel()?rel():'.');
             $template->display($this->assign);
         }

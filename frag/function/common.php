@@ -23,3 +23,23 @@ function rel()
     }
     return rtrim($str, '/');
 }
+
+/**
+ * 消息提示json封装
+ * @param array $arr
+ * @return false|string
+ */
+function showMsg($arr)
+{
+    return json_encode($arr, JSON_UNESCAPED_UNICODE);
+}
+
+/**
+ * 展开提示
+ * @param string $val
+ * @return mixed
+ */
+function unfoldMSg($val)
+{
+    return json_decode($val, true);
+}

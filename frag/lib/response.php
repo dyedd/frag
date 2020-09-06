@@ -7,17 +7,8 @@ class response
     public static function sendResponse($data, $code)
     {
         header(self::HTTP_VERSION . ' ' . $code . ' ' . self::getHttpStatusMessage($code));
-        $contentType = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : $_SERVER['HTTP_ACCEPT'];
-        if (strpos($contentType, 'application/json') !== false) {
-            header("Content-Type: application/json;charset=UTF-8");
-            echo self::encodeJson($data);
-        } else if (strpos($contentType, 'application/xml') !== false) {
-            header("Content-Type: application/xml");
-            echo self::encodeXml($data);
-        } else {
-            header("Content-Type: text/html");
-            echo self::encodeHtml($data);
-        }
+        header("Content-Type: application/json;charset=UTF-8");
+        echo showMsg($data);
     }
     public static function getHttpStatusMessage($statusCode){
         $httpStatus = array(
@@ -63,45 +54,5 @@ class response
             504 => 'Gateway Timeout',
             505 => 'HTTP Version Not Supported');
         return ($httpStatus[$statusCode]) ? $httpStatus[$statusCode] : $httpStatus[500];
-    }
-    //json格式
-    private static function encodeJson($responseData)
-    {
-        return json_encode($responseData);
-    }
-
-    //xml格式
-    private static function encodeXml($responseData)
-    {
-        $xml = new \SimpleXMLElement('<?xml version="1.0"?><rest></rest>');
-        foreach ($responseData as $key => $value) {
-            if (is_array($value)) {
-                foreach ($value as $k => $v) {
-                    $xml->addChild($k, $v);
-                }
-            } else {
-                $xml->addChild($key, $value);
-            }
-        }
-        return $xml->asXML();
-    }
-
-    //html格式
-    private static function encodeHtml($responseData)
-    {
-        $html = "<table>";
-        foreach ($responseData as $key => $value) {
-            $html .= "<tr>";
-            if (is_array($value)) {
-                foreach ($value as $k => $v) {
-                    $html .= "<td>" . $k . "</td><td>" . $v . "</td>";
-                }
-            } else {
-                $html .= "<td>" . $key . "</td><td>" . $value . "</td>";
-            }
-            $html .= "</tr>";
-        }
-        $html .= "</table>";
-        return $html;
     }
 }

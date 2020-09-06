@@ -6,9 +6,9 @@ class middleware extends \frag\lib\middleware
 {
     public function handle($request, Closure $next)
     {
-        echo "Start SimpleMiddleware\n";
+        // echo "Start SimpleMiddleware\n";
         $response = $next($request);
-        echo "End SimpleMiddleware\n";
+        // echo "End SimpleMiddleware\n";
         return $response;
     }
 }
